@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_service_url">https://statsapi.foxsports.com.au/3.0/api/sports/league</string>
+</resources>
