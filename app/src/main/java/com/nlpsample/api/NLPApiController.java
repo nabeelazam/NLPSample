@@ -2,11 +2,11 @@ package com.nlpsample.api;
 
 import android.app.Activity;
 
-import com.nlplibrary.NLPNetworkUtility;
+import com.nlplibrary.NFLNetworkUtility;
 import com.nlplibrary.ServiceCallBack;
-import com.nlpsample.models.NLPMatchModel;
+import com.nlpsample.models.NFLMatchModel;
 
-public class NLPApiController extends NLPNetworkUtility {
+public class NLPApiController extends NFLNetworkUtility {
 
     /**
      * @param act
@@ -16,12 +16,13 @@ public class NLPApiController extends NLPNetworkUtility {
     }
 
     /**
+     * Function to call API call for getting match list.
      *
      * @param showProgress
      * @param obj
      */
     public void getNLPMatchList(boolean showProgress, ServiceCallBack obj) {
-        this.get(APIUrls.getTopPlayerStatsUrl(), obj, NLPMatchModel.getInstance(), showProgress);
+        this.get(APIUrls.getTopPlayerStatsUrl(), obj, NFLMatchModel.getInstance(), showProgress);
     }
 
 }

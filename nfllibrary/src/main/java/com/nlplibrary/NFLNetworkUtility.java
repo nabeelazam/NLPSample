@@ -6,6 +6,7 @@ import android.os.Message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.nlplibrary.utils.Logger;
 import com.nlplibrary.utils.NetworkUtil;
 import com.nlplibrary.utils.NonUiWorkerThread;
@@ -13,9 +14,11 @@ import com.nlplibrary.utils.ServiceProgressDialog;
 import com.nlplibrary.volley.ServiceResponseAsStringListener;
 import com.nlplibrary.volley.ServiceUtil;
 
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
-public class NLPNetworkUtility {
+public class NFLNetworkUtility {
 
     private static final GsonBuilder builder = new GsonBuilder();
     private static Gson gson;
@@ -26,7 +29,7 @@ public class NLPNetworkUtility {
     /**
      * @param act
      */
-    public NLPNetworkUtility(Activity act) {
+    public NFLNetworkUtility(Activity act) {
         mContext = act;
         builder.setPrettyPrinting();
         builder.serializeNulls();
@@ -69,7 +72,7 @@ public class NLPNetworkUtility {
                 }
                 Logger.log("Response:: " + response);
                 try {
-                    if (validateResponse(response)) { // called on set success result
+                    if (!validateResponse(response)) { // called on set success result
                         dismissProgressBar(showProgress);
                         callBack.invoke(model);
                         return;
@@ -80,7 +83,9 @@ public class NLPNetworkUtility {
                         @Override
                         public void run() {
                             try {
-                                Object dataObj = gson.fromJson(response.toString(), model.getClass());
+                                Type type = new TypeToken<ArrayList<Object>>(){}.getType();
+                                Object dataObj = gson.fromJson(response, type);
+                                //Logger.log(dataObj.toString());
                                 Message msg = new Message();
                                 msg.obj = dataObj;
                                 postDataHandler.sendMessage(msg);
@@ -109,6 +114,7 @@ public class NLPNetworkUtility {
             @Override
             public void setErrorResult(String error) {
                 if(error != null){
+                    ServiceProgressDialog.showToastMsg(mContext, error);
                     Logger.log("Error: " + serviceTag + "::" + error + "::" + url);
                 }
                 // hide the progress dialog
@@ -183,4 +189,5 @@ public class NLPNetworkUtility {
         }
         return keyword;
     }
+
 }

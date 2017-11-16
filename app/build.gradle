@@ -38,5 +38,9 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.+'
     testCompile 'junit:junit:4.12'
     //compile 'com.google.code.gson:gson:2.8.0'
-    compile project(path: ':nlplibrary')
+    compile project(path: ':nfllibrary')
+
+    // Expandable List view
+    compile 'com.diegocarloslima:fgelv:0.1.2'
+    compile 'com.makeramen:roundedimageview:2.3.0'
 }

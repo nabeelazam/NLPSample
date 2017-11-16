@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class NLPMatch implements Serializable
+public class NFLMatch implements Serializable
 {
     private final static long serialVersionUID = -587189622453271706L;
 

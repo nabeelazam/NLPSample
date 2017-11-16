@@ -11,7 +11,7 @@ import com.nlplibrary.ServiceCallBack;
 import com.nlplibrary.utils.Logger;
 import com.nlpsample.R;
 import com.nlpsample.api.NLPApiController;
-import com.nlpsample.models.NLPMatchModel;
+import com.nlpsample.models.NFLMatchModel;
 
 public class HomeFragment extends Fragment {
 
@@ -44,11 +44,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void getMatchListCallBack(Object caller, Object model){
-        NLPMatchModel.getInstance().setList((NLPMatchModel) model);
+        NFLMatchModel.getInstance().setList(model);
 
-        if(NLPMatchModel.getInstance() != null &&
-                NLPMatchModel.getInstance().response != null){
-            Logger.log("Match List === " + NLPMatchModel.getInstance().response.size());
+        if(NFLMatchModel.getInstance() != null &&
+                NFLMatchModel.getInstance().response != null){
+            Logger.log("Match List === " + NFLMatchModel.getInstance().response.size());
         }
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.nlplibrary.R;
 
@@ -150,6 +151,25 @@ public class ServiceProgressDialog extends Dialog {
                     ServiceProgressDialog.dismissDialog();
                 }
             });
+        }
+    }
+
+
+    /**
+     * @param message
+     */
+    public static void showToastMsg(final Activity activity, final String message) {
+        if (activity != null) {
+            if (!message.isEmpty()) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast =
+                                Toast.makeText(activity, message, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+            }
         }
     }
 }
