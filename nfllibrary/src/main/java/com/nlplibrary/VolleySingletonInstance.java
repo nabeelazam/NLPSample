@@ -19,7 +19,6 @@ public class VolleySingletonInstance {
     private VolleySingletonInstance(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
-
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
@@ -46,8 +45,6 @@ public class VolleySingletonInstance {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;

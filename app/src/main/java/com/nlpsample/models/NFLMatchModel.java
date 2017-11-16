@@ -1,5 +1,7 @@
 package com.nlpsample.models;
 
+import com.nlpsample.api.CustomParser;
+
 import java.util.ArrayList;
 
 public class NFLMatchModel {
@@ -17,6 +19,12 @@ public class NFLMatchModel {
     }
 
     public void setList(Object obj) {
-        response = (ArrayList<NFLMatch>)obj;
+        response = (ArrayList<NFLMatch>) CustomParser.getInstance().getArrayModel(obj);
+    }
+
+
+    public boolean isValidData(){
+        return (getInstance() != null && getInstance().response != null
+            && !getInstance().response.isEmpty());
     }
 }

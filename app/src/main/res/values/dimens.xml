@@ -1,4 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+
+    <dimen name="patient_grid_horizontal_spacing">5dp</dimen>
+    <dimen name="patient_grid_vertical_spacing">5dp</dimen>
 </resources>

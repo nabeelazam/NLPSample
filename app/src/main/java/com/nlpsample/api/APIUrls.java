@@ -7,6 +7,7 @@ public class APIUrls {
 
     /**
      * Assumption: Parameters can be passed but I am assuming it as a complete URL
+     *
      * @return
      */
     public static String getTopPlayerStatsUrl() {
@@ -14,6 +15,13 @@ public class APIUrls {
     }
 
 
+    public static String getPlayerDetails() {
+        return BASE_URL + "/series/1/seasons/115/teams/%s/players/%s/detailedstats.json?&userkey=9024ec15-d791-4bfd-aa3b-5bcf5d36da4f";
+    }
 
+
+    public static String getPlayerImageUrl() {
+        return "http://media.foxsports.com.au/match-centre/includes/images/headshots/landscape/nrl/%s.jpg";
+    }
 
 }

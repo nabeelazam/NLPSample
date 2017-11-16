@@ -3,10 +3,9 @@ package com.nlplibrary;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.ImageView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.android.volley.toolbox.ImageLoader;
 import com.nlplibrary.utils.Logger;
 import com.nlplibrary.utils.NetworkUtil;
 import com.nlplibrary.utils.NonUiWorkerThread;
@@ -14,15 +13,10 @@ import com.nlplibrary.utils.ServiceProgressDialog;
 import com.nlplibrary.volley.ServiceResponseAsStringListener;
 import com.nlplibrary.volley.ServiceUtil;
 
-import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 public class NFLNetworkUtility {
 
-    private static final GsonBuilder builder = new GsonBuilder();
-    private static Gson gson;
-    public static final String SERVER_PROB_MSG = "There is some problem with server, We can't connect you right now, Please try again later.";
     private static final String ENCODE_UTF8 = "utf-8";
     private Activity mContext;
 
@@ -31,11 +25,6 @@ public class NFLNetworkUtility {
      */
     public NFLNetworkUtility(Activity act) {
         mContext = act;
-        builder.setPrettyPrinting();
-        builder.serializeNulls();
-        gson = builder.create();
-        gson.htmlSafe();
-        gson.fieldNamingStrategy();
     }
 
     /**
@@ -83,11 +72,8 @@ public class NFLNetworkUtility {
                         @Override
                         public void run() {
                             try {
-                                Type type = new TypeToken<ArrayList<Object>>(){}.getType();
-                                Object dataObj = gson.fromJson(response, type);
-                                //Logger.log(dataObj.toString());
                                 Message msg = new Message();
-                                msg.obj = dataObj;
+                                msg.obj = response;
                                 postDataHandler.sendMessage(msg);
                                 nonUiWorkerThread.quit();
                             } catch (Exception e) {
@@ -189,5 +175,23 @@ public class NFLNetworkUtility {
         }
         return keyword;
     }
+
+
+    /**
+     * @param url
+     * @param iv
+     * @param defaultImageId
+     */
+    public void downloadImageWithVolley(Activity activity, final String url, final ImageView iv, final int defaultImageId) {
+        try {
+            ImageLoader imageLoader = VolleySingletonInstance.getInstance(activity).getImageLoader();
+            if (imageLoader != null) {
+                imageLoader.get(url, ImageLoader.getImageListener(iv, defaultImageId, defaultImageId));
+            }
+        } catch (Exception e) {
+            Logger.logException(e);
+        }
+    }
+
 
 }

@@ -23,7 +23,7 @@
     <style name="normalEighteen">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
 
