@@ -51,4 +51,29 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+//
+//    @Override
+//    public void onBackPressed() {
+//        int fragments = getFragmentManager().getBackStackEntryCount();
+//        if (fragments == 1) {
+//            // make layout invisible since last fragment will be removed
+//        }
+//        super.onBackPressed();
+//    }
+
+
+    @Override
+    public void onBackPressed() {
+        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        } else {
+            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
+
 }

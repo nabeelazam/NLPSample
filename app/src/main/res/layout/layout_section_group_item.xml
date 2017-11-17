@@ -12,6 +12,6 @@
         android:padding="10dp"
         android:text="Group Title"
         android:visibility="visible"
-        android:inputType="textCapWords"/>
-
+        android:inputType="textCapWords"
+        android:textColor="@color/colorWhite"/>
 </LinearLayout>

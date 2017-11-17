@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ScrollView;
 
 import com.androidquery.AQuery;
 import com.nlplibrary.ServiceCallBack;
@@ -29,7 +30,7 @@ public class PlayerDetailFragment extends Fragment {
     private TopPlayer mSelectedPlayer;
     private String mTeamId = "";
     private AQuery mAQuery;
-
+    private ScrollView parentScrollView;
     private GridView mPlayerGridView;
     private PlayerGridAdapter mPlayerGridAdapter;
 
@@ -67,6 +68,7 @@ public class PlayerDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mAQuery = new AQuery(getActivity(), view);
         mPlayerGridView = (GridView) view.findViewById(R.id.player_grid_view);
+        parentScrollView = (ScrollView) view.findViewById(R.id.stats_swipe_view);
 
         // Getting Player details
         getPlayerDetails(true);
@@ -89,7 +91,6 @@ public class PlayerDetailFragment extends Fragment {
     public void getPlayerDetailsCallBack(Object caller, Object model) {
         PlayerDetailModel.getInstance().setList(model);
         if (PlayerDetailModel.getInstance().isValidData()) {
-            //Logger.log("Player Name === " + PlayerDetailModel.getInstance().player.fullName);
             setHomeGridAdapter(PlayerDetailModel.getInstance().player);
             mAQuery.id(R.id.tv_no_stats_found).gone();
         } else {
@@ -118,6 +119,8 @@ public class PlayerDetailFragment extends Fragment {
      * @param player
      */
     private void setHomeGridAdapter(final Player player) {
+
+        parentScrollView.setVisibility(View.VISIBLE);
 
         populatePlayerDemographics(player);
 

@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">NLPSample</string>
+    <string name="app_name">National Rugby League</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="vs_text"> - VS - </string>
 </resources>

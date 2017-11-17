@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/player_card_bg"
-    android:layout_margin="0dp">
+    android:background="@drawable/player_card_bg">
 
     <ImageView
         android:id="@+id/img_top_player"
@@ -18,26 +17,32 @@
     <TextView
         android:layout_marginTop="5dp"
         android:id="@+id/tv_player_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:text="Usman Sharif"/>
+        android:text="Usman Sharif"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/tv_jumper_number"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:text="Jumper: 49"/>
 
     <TextView
         android:id="@+id/tv_player_position"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Midfielder"/>
 
     <TextView
         android:id="@+id/tv_stat_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Stat Value: 90"/>
 
 </LinearLayout>

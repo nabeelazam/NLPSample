@@ -9,17 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView;
 import com.diegocarloslima.fgelv.lib.WrapperExpandableListAdapter;
 import com.nlplibrary.ServiceCallBack;
-import com.nlplibrary.utils.Logger;
 import com.nlpsample.R;
 import com.nlpsample.adapters.NRLStatsAdapter;
 import com.nlpsample.api.NFLApiController;
 import com.nlpsample.models.NFLMatch;
 import com.nlpsample.models.NFLMatchModel;
-import com.nlpsample.models.PlayerDetailModel;
 import com.nlpsample.models.StatSection;
 import com.nlpsample.utils.LayoutUtil;
 import com.nlpsample.utils.TextUtils;
@@ -35,6 +35,8 @@ public class HomeFragment extends Fragment {
     private FloatingGroupExpandableListView mStatsListView;
     private WrapperExpandableListAdapter mWrapperAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView tvTeamAName, tvTeamBName;
+    private LinearLayout llTeamInfo;
 
 
     public HomeFragment() {
@@ -59,6 +61,30 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Ui initialization call
+        initializeUI(view);
+
+        // Getting Match List
+        getNFLMatchList(true);
+
+        // Pull to refresh
+        RefreshLayoutUtil.setOnRefreshListener(getActivity(), mSwipeRefreshLayout, new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNFLMatchList(false);
+            }
+        });
+        RefreshLayoutUtil.setRefreshScrollListener(mStatsListView, mSwipeRefreshLayout);
+    }
+
+
+    /**
+     *  Initialize User interface
+     * @param parentView
+     */
+    private void initializeUI(View parentView){
+
         mStatsListView = LayoutUtil.getExpendableListViewWithEmptyView(getActivity());
         mStatsListView.setGroupIndicator(null);
         mStatsListView.setSelector(new StateListDrawable());
@@ -70,20 +96,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Getting Match List
-        getNFLMatchList(true);
-
         mSwipeRefreshLayout = RefreshLayoutUtil.getSwipeRefreshLayout(getActivity(), R.id.stats_swipe_view);
-        RefreshLayoutUtil.setOnRefreshListener(getActivity(), mSwipeRefreshLayout, new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getNFLMatchList(false);
-            }
-        });
-        RefreshLayoutUtil.setRefreshScrollListener(mStatsListView, mSwipeRefreshLayout);
 
-        //mApiService.getPlayerDetails("55011", "108392", true, new ServiceCallBack(HomeFragment.this, "getPlayerDetailsCallBack"));
-
+        tvTeamAName = parentView.findViewById(R.id.tv_left_team_name);
+        tvTeamBName = parentView.findViewById(R.id.tv_right_team_name);
+        llTeamInfo = parentView.findViewById(R.id.ll_team_info);
     }
 
 
@@ -105,8 +122,8 @@ public class HomeFragment extends Fragment {
         NFLMatchModel.getInstance().setList(model);
 
         if (NFLMatchModel.getInstance().isValidData()) {
-            Logger.log("Match List === " + NFLMatchModel.getInstance().response.size());
             setMatchStatsAdapter();
+            // Setting Team Names
             LayoutUtil.setListViewEmptyViewText(getActivity(), "");
         } else {
             LayoutUtil.setListViewEmptyViewText(getActivity(), NO_DATA_FOUND);
@@ -116,25 +133,14 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void getPlayerDetailsCallBack(Object caller, Object model) {
-        PlayerDetailModel.getInstance().setList(model);
-
-        if (PlayerDetailModel.getInstance() != null &&
-                PlayerDetailModel.getInstance().player != null) {
-            Logger.log("Player Name === " + PlayerDetailModel.getInstance().player.fullName);
-
-        }
-    }
-
-
     /**
      * Setting Stats list adapter
      */
     private void setMatchStatsAdapter() {
-        //mStatsListView.setAdapter(new NRLStatsAdapter(getContext(), new ArrayList<StatSection>()));
         NRLStatsAdapter mStatsAdapter = new NRLStatsAdapter(getActivity(), getStatSectionWiseData(NFLMatchModel.getInstance().response));
         mWrapperAdapter = new WrapperExpandableListAdapter(mStatsAdapter);
         mStatsListView.setAdapter(mWrapperAdapter);
+        // Expanding groups by default
         for (int i = 0; i < mWrapperAdapter.getGroupCount(); i++) {
             mStatsListView.expandGroup(i);
         }
